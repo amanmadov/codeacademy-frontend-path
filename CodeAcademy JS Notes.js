@@ -1,7 +1,9 @@
 
 /*
-    CodeAcademy
+    CodeAcademy Frontend Path
 */
+
+//#region Vanilla Javascript 
 
 // Scope Pollution
 // It may seem like a great idea to always make your variables accessible, 
@@ -2080,7 +2082,189 @@ const cookBeanSouffle = require('./library.js');
     submit.addEventListener("click", displaySuggestions);
 
 
+//#endregion
 
+
+//#region React 
+
+//#region Destructuring with JavaScript
+
+    //Destructuring Arrays
+    let cars = ['ferrari', 'tesla', 'cadillac'];
+    let [car1, car2, car3] = cars;
+    console.log(car1, car2, car3); // Prints: ferrari tesla cadillac
+
+    //Destructuring Objects
+    let destinations = { x: 'LA', y: 'NYC', z: 'MIA' };
+    let { x, y, z } = destinations;
+    console.log(x, y, z); // Prints LA NYC MIA
+
+    //Destructuring Function Parameters
+    let truck = {
+        model: '1977 Mustang convertible',
+        maker: 'Ford',
+        city: 'Detroit',
+        year: '1977',
+        convertible: true
+    };
+       
+    const printCarInfo = ({model, maker, city}) => {
+    console.log(`The ${model}, or ${maker}, is in the city ${city}.`);
+    };
+       
+    printCarInfo(truck);
+    // Prints: The 1977 Mustang convertible, or Ford, is in the city Detroit.
+
+//#endregion
+
+//#region React: The Virtual DOM 
+
+/*
+The Problem
+DOM manipulation is the heart of the modern, interactive web. 
+Unfortunately, it is also a lot slower than most JavaScript operations.
+This slowness is made worse by the fact that most JavaScript frameworks update the DOM much more than they have to.
+As an example, let’s say that you have a list that contains ten items. You check off the first item. 
+Most JavaScript frameworks would rebuild the entire list. 
+That’s ten times more work than necessary! Only one item changed, but the remaining nine get rebuilt exactly how they were before.
+Rebuilding a list is no big deal to a web browser, but modern websites can use huge amounts of DOM manipulation. 
+Inefficient updating has become a serious problem.
+To address this problem, the people at React popularized something called the virtual DOM.
+
+The Virtual DOM
+In React, for every DOM object, there is a corresponding “virtual DOM object.” 
+A virtual DOM object is a representation of a DOM object, like a lightweight copy.
+A virtual DOM object has the same properties as a real DOM object, 
+but it lacks the real thing’s power to directly change what’s on the screen.
+Manipulating the DOM is slow. Manipulating the virtual DOM is much faster, because nothing gets drawn onscreen. 
+Think of manipulating the virtual DOM as editing a blueprint, as opposed to moving rooms in an actual house.
+In React, for every DOM object, there is a corresponding “virtual DOM object.” 
+A virtual DOM object is a representation of a DOM object, like a lightweight copy.
+A virtual DOM object has the same properties as a real DOM object, 
+but it lacks the real thing’s power to directly change what’s on the screen.
+Manipulating the DOM is slow. 
+Manipulating the virtual DOM is much faster, because nothing gets drawn onscreen. 
+Think of manipulating the virtual DOM as editing a blueprint, as opposed to moving rooms in an actual house.
+
+How it helps
+When you render a JSX element, every single virtual DOM object gets updated.
+This sounds incredibly inefficient, but the cost is insignificant because the virtual DOM can update so quickly.
+Once the virtual DOM has updated, then React compares the virtual DOM with a virtual DOM snapshot that was taken right before the update.
+By comparing the new virtual DOM with a pre-update version, React figures out exactly which virtual DOM objects have changed. 
+This process is called “diffing.”
+Once React knows which virtual DOM objects have changed, then React updates those objects, and only those objects, on the real DOM. 
+In our example from earlier, React would be smart enough to rebuild your one checked-off list-item, and leave the rest of your list alone.
+This makes a big difference! React can update only the necessary parts of the DOM. 
+React’s reputation for performance comes largely from this innovation.
+
+In summary, here’s what happens when you try to update the DOM in React:
+- The entire virtual DOM gets updated.
+- The virtual DOM gets compared to what it looked like before you updated it. React figures out which objects have changed.
+- The changed objects, and the changed objects only, get updated on the real DOM.
+- Changes on the real DOM cause the screen to change
+
+
+Extra Link: https://reactkungfu.com/2015/10/the-difference-between-virtual-dom-and-dom/
+
+*/
+
+//#endregion
+
+//#region Animal Fun Facts Project JSX
+
+//#region app.js 
+
+    import { animals } from "./animals";
+    import React from "react";
+    import ReactDOM from "react-dom";
+
+    const title = "";
+    const background = (
+    <img className="background" alt="ocean" src="/images/ocean.jpg" />
+    );
+
+
+    const images = [];
+    for (const animal in animals) {
+    images.push(<img
+        key={animal}
+        className='animal'
+        alt={animal}
+        src={animals[animal].image}
+        aria-label={animal}
+        role='button' 
+        onClick={displayFact} 
+        />)
+    };
+
+    function displayFact(e) {
+    const facts = animals[e.target.alt].facts;
+    const randomFactIndex = Math.floor(Math.random() * facts.length)
+    const fact = facts[randomFactIndex];
+    document.getElementById('fact').innerHTML = fact;
+    }
+
+    const animalFacts = (
+    <div>
+        <h1>{ title === '' ? 'Click an animal for a fun fact' : title }</h1>
+        { background}
+        <img 
+        className='background'
+        alt='ocean'
+        src='/images/ocean.jpg' />
+        <div className='animals'>{images}</div>
+        <p id='fact'></p>
+    </div>
+    );
+
+    ReactDOM.render(animalFacts, document.getElementById("root"));
+
+//#endregion
+
+//#region animals.js 
+
+    export const animals = {
+        dolphin: {
+            image: '/images/dolphin.jpg',
+            facts: ['Dolphins have been shown to give distinct names to each other!', 'Dolphins are known to display their own culture!', 'Dolphins have two stomachs!']
+        },
+        lobster: {
+            image: '/images/lobster.jpg',
+            facts: ['Lobsters taste with their legs!', 'Lobsters chew with their stomachs!', 'Lobsters can live as long as 100 years.']
+        },
+        starfish: {
+            image: '/images/starfish.jpg',
+            facts: ['Starfish can have up to 40 arms!', 'Starfish have no brain and no blood!', 'Starfish can regenerate their own arms!']
+        }
+    };
+
+//#endregion
+
+//#region index.html 
+
+    < !DOCTYPE html >
+        <html lang="en">
+            <head>
+                <meta charset="utf-8" />
+                <link rel="stylesheet" href="./styles.css" />
+            </head>
+            <body>
+                <div id="root"></div>
+                <script src="https://content.codecademy.com/courses/React/react-course-bundle.min.js"></script>
+                <script src="/app.compiled.js"></script>
+            </body>
+        </html>
+
+//#endregion
+
+//#endregion
+
+
+
+
+
+
+//#endregion
 
 
 

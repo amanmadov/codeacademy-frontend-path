@@ -3191,17 +3191,17 @@ const url = "https://api.datamuse.com/words?sl=";
 
 //#region Destructuring with JavaScript
 
-    //Destructuring Arrays
+// Destructuring Arrays
     let cars = ['ferrari', 'tesla', 'cadillac'];
     let [car1, car2, car3] = cars;
     console.log(car1, car2, car3); // Prints: ferrari tesla cadillac
 
-    //Destructuring Objects
+// Destructuring Objects
     let destinations = { x: 'LA', y: 'NYC', z: 'MIA' };
     let { x, y, z } = destinations;
     console.log(x, y, z); // Prints LA NYC MIA
 
-    //Destructuring Function Parameters
+// Destructuring Function Parameters
     let truck = {
         model: '1977 Mustang convertible',
         maker: 'Ford',
@@ -3211,7 +3211,7 @@ const url = "https://api.datamuse.com/words?sl=";
     };
        
     const printCarInfo = ({model, maker, city}) => {
-    console.log(`The ${model}, or ${maker}, is in the city ${city}.`);
+        console.log(`The ${model}, or ${maker}, is in the city ${city}.`);
     };
        
     printCarInfo(truck);

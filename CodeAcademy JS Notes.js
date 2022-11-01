@@ -1,6 +1,7 @@
 
 /*
-    CodeAcademy Frontend Path
+    CodeAcademy Frontend Path JavaScript Notes
+    by: Nury Amanmadov 2022
 */
 
 //#region Vanilla Javascript 
@@ -185,6 +186,7 @@
 //#endregion
 
 //#region ADVANCED OBJECTS 
+
 
 //#region Advanced Objects Introduction 
 
@@ -1039,12 +1041,14 @@
 
 //#endregion
 
+
 //#endregion
 
-//#region AUTOMATE AND ORGANIZE TESTS 
+//#region JavaScript Testing
 
 
-// Introduction
+//#region Introduction 
+
 // Testing is an essential part of development. 
 // When used properly, testing can catch and identify issues with your implementation code before you deploy it to users. 
 // Instead of testing every function manually, developers automate their tests with a test framework.
@@ -1079,8 +1083,10 @@
         });
     });
 
+//#endregion
 
-// describe and it blocks
+//#region describe and it blocks 
+
 // In Mocha we group tests using the describe function and define tests using the it function. 
 // These two functions can be used to make your test suite complete, maintainable, and expressive in the following ways:
 // - Structure your test suite: you can organize tests into nested groups that reflect the structure of your implementation code.
@@ -1100,7 +1106,10 @@
     });
 
 
-// Setup, Exercise, and Verify
+//#endregion
+
+//#region Setup, Exercise, and Verify 
+
 // In this exercise you will be separating a test into setup, exercise, and verify phases. 
 // This distinct and well-defined separation of steps makes your test more reliable, maintainable, and expressive.
 
@@ -1110,7 +1119,6 @@
 // Verify - check your expectations against the result of the exercise phase. You can use the assert library here
 
 // Clear separation of each phase makes a test easier to read, change, and validate.
-
 
     const assert = require('assert');
 
@@ -1136,9 +1144,10 @@
         });
     });
 
+//#endregion
 
+//#region Teardown 
 
-// Teardown
 // So far, we’ve been writing just one test using a single it() block. 
 // However, in most situations, we will need to write many tests for a particular feature that get executed in succession.
 
@@ -1194,8 +1203,10 @@
     });
 
 
+//#endregion
 
-// Hooks
+//#region Hooks 
+
 // Over the last two exercises, we learned about the four main phases of a test: setup, execute, verify, and teardown. 
 // In the last exercise, you may have noticed that the setup and teardown steps were identical between tests.
 
@@ -1266,8 +1277,9 @@
         });
     });
 
+//#endregion
 
-// assert.ok
+//#region assert.ok 
 
     const assert = require('assert');
     describe('-', () => {
@@ -1280,8 +1292,9 @@
         });
     });
 
+//#endregion
 
-// assert.equal
+//#region assert.equal 
 
     const landAnimals = ['giraffe', 'squirrel'];
     const waterAnimals = ['shark', 'stingray'];
@@ -1302,8 +1315,10 @@
         });
     });
 
+//#endregion
 
-// assert.strictEqual
+//#region assert.strictEqual 
+
 // If you need to be strict in evaluating equality, you can use assert.strictEqual().
 //     assert.equal() performs a == comparison
 //     assert.strictEqual() performs a === comparison
@@ -1315,8 +1330,9 @@
 
 // July 2021 Update: the assert documentation recommends always using assert.strictEqual() instead of assert.equal().
 
+//#endregion
 
-// assert.deepEqual I
+//#region assert.deepEqual I 
 
     const a = {relation: 'twin', age: '17'};
     const b = {relation: 'twin', age: '17'};
@@ -1338,9 +1354,10 @@
         });
     });
 
+//#endregion
 
+//#region assert.deepEqual II 
 
-// assert.deepEqual II
 // In the last exercise you used deepEqual() to compare the values of two objects with loose equality. 
 // Arrays are also objects, so deepEqual() also compares their values with loose equality.
 
@@ -1360,9 +1377,9 @@
         });
     });
 
+//#endregion
 
-
-// Sample Project 
+//#region Sample Project  
 
 // -------------------index.js-------------------
 
@@ -1423,13 +1440,222 @@
         });
     });
 
+//#endregion
+
+
+//#endregion
+
+//#region Async JavaScript and HTTP Requests 
+
+
+//#region Basics of Asynchronous JavaScript 
+
+
+//#region JavaScript and Asynchronous Code 
+
+// JavaScript is a single-threaded language. This means it has a single thread that can carry out one task at a time. 
+// However, Javascript has what is known as the event loop,
+// a specific design that allows it to perform asynchronous tasks even while only using a single thread.
+
+//#endregion
+
+//#region Asynchronous Callbacks 
+
+// One common example of asynchronicity in JavaScript is the use of asynchronous callbacks. 
+// This is a type of callback function that executes after a specific condition is met and runs concurrently to any other code currently running. 
+// Let’s look at an example:
+
+    easterEgg.addEventListener('click', () => {
+        console.log('Up, Up, Down, Down, Left, Right, Left, Right, B, A');
+    });
+
+// In the code above, the function passed as the second argument of .addEventListener() is an asynchronous callback 
+// — this function doesn’t execute until the easterEgg is clicked.
+
+//#endregion
+
+//#region setTimeout 
+
+// In addition to asynchronous callbacks, JavaScript provides a handful of built-in functions that can perform tasks asynchronously. 
+// One function that is commonly used is the setTimeout() function.
+
+// With setTimeout() we can write code that tells our JavaScript program to wait a minimum amount of time before executing its callback function. 
+// Take a look at this example:
+
+    setTimeout(() => {
+        console.log('Delay the printing of this string, please.');
+    }, 1000);
+
+// Notice that setTimeout() takes 2 arguments, a callback function and a number specifying how long to wait before executing the function. 
+// In the example above, the function will print 'Delay the printing of this string, please.' after 1000 milliseconds (or 1 second) have passed.
+
+// Since setTimeout() is non-blocking, we can be executing multiple lines of code at the same time! 
+// Imagine if we had a program like this:
+    
+    setTimeout(() => {
+      console.log('Delay the printing of this string, please.');
+    }, 1000);
+    console.log('Doing important stuff.');
+    console.log('Still doing important stuff.'); 
+
+// Which outputs:
+// 'Doing important stuff.'
+// 'Still doing important stuff.' 
+// 'Delay the printing of this string, please.'
+
+// If we take a closer look at the output, we’ll see that our setTimeout()‘s callback function didn’t execute 
+// until after our other very important console.log() statements were executed.
+
+//#endregion
+
+//#region setInterval 
+
+// Another common built-in function is setInterval() which also takes a callback function and a number specifying how often the callback function should execute. 
+// For example:
+
+    setInterval(() => {
+        alert('Are you paying attention???')
+    }, 300000)
+
+//#endregion
+
+//#region Why Do We Need an Event Loop? 
+
+// JavaScript is a single-threaded language, which means that two statements can’t be executed simultaneously. 
+// For example, if you have a for loop that takes a while to process, it’ll have to finish executing before the rest of your code runs. 
+// That results in blocking code. But as we already learned, we can run non-blocking code in JavaScript, which is where the Event Loop comes in. 
+// Input/output (I/O) is handled with events and callbacks so code execution can continue. 
+// Let’s look at an example of blocking and non-blocking code. Run this block of code yourself locally.
+
+// Blocking code
+    console.log("I'm learning about");
+    for (let idx=0; idx < 999999999; idx++) {}
+    console.log("the Event Loop");
+     
+// The second console.log() statement is delayed by the for loop's execution
+// Now let’s take a look at the non-blocking example. There are functions like setTimeout() that work differently thanks to the Event Loop. 
+
+    console.log("I’m learning about");
+    setTimeout(() => { console.log("Event Loop");}, 2000);
+    console.log("the");
+
+//#endregion
+
+//#region Understand the Components of the Event Loop 
+
+// The event loop is made up of these parts:
+    // Memory Heap
+    // Call Stack
+    // Event Queue
+    // Event Loop
+    // Node or Web APIs
+
+// Let’s take a closer look at each part before we put it all together.
+
+
+// The Heap
+// The heap is a block of memory where we store objects in an unordered manner. 
+// JavaScript variables and objects that are currently in use are stored in the heap.
+
+
+// The Call Stack
+// The stack, or call stack, tracks what function is currently being run in your code.
+// When you invoke a function, a frame is added to the stack. Frames connect that function’s arguments and local variables from the heap. 
+// Frames enter the stack in a last in, first out (LIFO) order. In the code snippet below, a series of nested functions are declared, then foo() is called and logged.
+
+    function foo() {
+        return function bar() {
+            return function baz() {
+                return 'I love CodeCademy'
+            }
+        }
+    }
+    console.log(foo()()());
+
+// The function executing at any given point in time is at the top of the stack. 
+// In our example code, since we have nested functions, they will all be added to the stack until the innermost function has been executed. 
+// When the function finishes executing e.g. returns, its frame is removed from the stack
+// You might have noticed that global() is at the bottom of the stack–when you first initiate a program, 
+// the global execution context is added to the call stack, which contains the global variable and lexical environment. 
+// Each subsequent frame for a called function has a function execution context that includes the function’s lexical and variable environment.
+// So when we say the call stack tracks what function is currently being run in our code, what we are tracking is the current execution context. 
+// When a function runs to completion, it is popped off of the call stack. The memory, or the frame, is cleared.
+
+
+// The Event Queue
+// The event queue is a list of messages corresponding to functions that are waiting to be processed. 
+// In the diagram, these messages are entering the event queue from sources such as various web APIs 
+// or async functions that were called and are returning additional events to be handled by the stack. 
+// Messages enter the queue in a first in, first out (FIFO) order. 
+// No code is executed in the event queue; instead, it holds functions that are waiting to be added back into the stack.
+
+
+// The Event Loop
+// This event loop is a specific part of our overall event loop concept. 
+// Messages that are waiting in the event queue to be added back into the stack are added back via the event loop. 
+// When the call stack is empty, if there is anything in the event queue, the event loop can add those one at a time to the stack for execution.
+    // 1. First the event loop will poll the stack to see if it is empty.
+    // 2. It will add the first waiting message.
+    // 3. It will repeat steps 1 and 2 until the stack has cleared.
+
+
+// The Event Loop in Action
+// Now that we know all of the pieces of the event loop, let’s walk through some code to understand the event loop in action.
+
+    console.log("This is the first line of code in app.js.");
+    function usingsetTimeout() {
+        console.log("I'm going to be queued in the Event Loop.");
+    }
+    setTimeout(usingsetTimeout, 3000);
+    console.log("This is the last line of code in app.js.");
+
+
+// 1. console.log("This is the first line of code in app.js."); is added to the stack, executes, then pops off of the stack.
+// 2. setTimeout() is added to the stack.
+// 3. setTimeout()’s callback is passed to be executed by a web API. The timer will run for 3 seconds. 
+// After 3 seconds elapse, the callback function, usingsetTimeout() is pushed to the Event Queue.
+// 4. The Event Loop, meanwhile, will check periodically if the stack is cleared to handle any messages in the Event Queue.
+// 5. console.log("This is the last line of code in app.js."); is added to the stack, executes, then pops off of the stack.
+// 6. The stack is now empty, so the event loop pushes usingsetTimeout onto the stack.
+// 7. console.log("I'm going to be queued in the Event Loop."); is added to the stack, executes, gets popped
+// 8. usesetTimeout pops off of the stack.
 
 
 //#endregion
 
 
+//#endregion
 
-// Constructing a Promise Object
+//#region Promises 
+
+
+//#region Introduction 
+
+// An asynchronous operation is one that allows the computer to “move on” to other tasks while waiting for the asynchronous operation to complete. 
+// Asynchronous programming means that time-consuming operations don’t have to bring everything else in our programs to a halt.
+// Operations like making a network request or querying a database can be time-consuming, but JavaScript allows us to execute other tasks while awaiting their completion.
+
+// What is a Promise?
+// Promises are objects that represent the eventual outcome of an asynchronous operation. 
+// A Promise object can be in one of three states:
+    // Pending: The initial state— the operation has not completed yet.
+    // Fulfilled: The operation has completed successfully and the promise now has a resolved value. For example, a request’s promise might resolve with a JSON object as its value.
+    // Rejected: The operation has failed and the promise has a reason for the failure. This reason is usually an Error of some kind.
+
+// We refer to a promise as settled if it is no longer pending— it is either fulfilled or rejected. 
+// Let’s think of a dishwasher as having the states of a promise:
+    // Pending: The dishwasher is running but has not completed the washing cycle.
+    // Fulfilled: The dishwasher has completed the washing cycle and is full of clean dishes.
+    // Rejected: The dishwasher encountered a problem (it didn’t receive soap!) and returns unclean dishes.
+
+// If our dishwashing promise is fulfilled, we’ll be able to perform related tasks, such as unloading the clean dishes from the dishwasher. 
+// If it’s rejected, we can take alternate steps, such as running it again with soap or washing the dishes by hand.
+// All promises eventually settle, enabling us to write logic for what to do if the promise fulfills or if it rejects.
+
+//#endregion
+
+//#region Constructing a Promise Object 
+
 // Let’s construct a promise! To create a new Promise object, we use the new keyword and the Promise constructor method:
 
     const executorFunction = (resolve, reject) => { };
@@ -1486,14 +1712,17 @@
     }
 
     const orderSunglasses = () => {
-        return new Promise(myExecutor)
+        return new Promise(myExecutor);
     }
 
     let orderPromise = orderSunglasses();
-    console.log(orderPromise)
+    console.log(orderPromise); // Promise { 'Sunglasses order processed.' }
 
 
-// The Node setTimeout() Function
+//#endregion
+
+//#region The Node setTimeout() Function 
+
 // Knowing how to construct a promise is useful, but most of the time, knowing how to consume, or use, promises will be key. 
 // Rather than constructing promises, you’ll be handling Promise objects returned to you as the result of an asynchronous operation. 
 // These promises will start off pending but settle eventually.
@@ -1539,14 +1768,16 @@
     setTimeout(usingSTO, 1000);
     console.log("This is the last line of code in app.js.");
 
-// Output
+// Output:
+    // This is the first line of code in app.js.
+    // This is the last line of code in app.js.
+    // Executing....
 
-// This is the first line of code in app.js.
-// This is the last line of code in app.js.
-// Executing....
 
+//#endregion
 
-// Consuming Promises
+//#region Consuming Promises 
+
 // The initial state of an asynchronous promise is pending, but we have a guarantee that it will settle. 
 // How do we tell the computer what should happen then? 
 // Promise objects come with an aptly named .then() method. 
@@ -1569,7 +1800,10 @@
 // We’ll return to this in more detail in a later exercise and explore why it’s so important.
 
 
-// Success and Failure Callback Functions
+//#endregion
+
+//#region Success and Failure Callback Functions 
+
 // To handle a “successful” promise, or a promise that resolved, we invoke .then() on the promise, passing in a success handler callback function:
 
     const prom = new Promise((resolve, reject) => {
@@ -1615,9 +1849,10 @@
 // We pass two handler functions to .then(). 
 // The first will be invoked with 'Yay!' if the promise resolves, and the second will be invoked with 'Ohhh noooo!' if the promise rejects.
 
+//#endregion
 
+//#region Using catch() with Promises 
 
-// Using catch() with Promises
 // One way to write cleaner code is to follow a principle called separation of concerns. 
 // Separation of concerns means organizing code into distinct sections each handling a specific task. 
 // It enables us to quickly navigate our code and know where to look if something isn’t working.
@@ -1678,7 +1913,10 @@
         .catch(handleFailure);
 
 
-// Chaining Multiple Promises
+//#endregion
+
+//#region Chaining Multiple Promises 
+
 // One common pattern we’ll see with asynchronous programming is multiple operations 
 // which depend on each other to execute or that must be executed in a certain order. 
 // We might make one request to a database and use the data returned to us to make another request and so on! 
@@ -1734,8 +1972,35 @@
             console.log(errorMessage);
         });
 
+//#endregion
 
-// Using Promise.all()
+//#region Avoiding Common Mistakes 
+
+// Promise composition allows for much more readable code than the nested callback syntax that preceded it. 
+// However, it can still be easy to make mistakes. In this exercise, we’ll go over two common mistakes with promise composition.
+
+// Mistake 1: Nesting promises instead of chaining them.
+
+    returnsFirstPromise()
+        .then((firstResolveVal) => {
+            return returnsSecondValue(firstResolveVal)
+                .then((secondResolveVal) => {
+                    console.log(secondResolveVal);
+                })
+        })
+
+// Mistake 2: Forgetting to return a promise.
+    returnsFirstPromise()
+        .then((firstResolveVal) => {
+            returnsSecondValue(firstResolveVal)
+        })
+        .then((someVal) => {
+            console.log(someVal);
+        })
+
+//#endregion
+
+//#region Using Promise.all() 
 
 // When done correctly, promise composition is a great way to handle situations 
 // where asynchronous operations depend on each other or execution order matters. 
@@ -1770,6 +2035,7 @@
         })
 
 
+// Ex:
     const { checkAvailability } = require('./library.js');
 
     const onFulfill = (itemsArray) => {
@@ -1781,7 +2047,7 @@
         console.log(rejectionReason);
     };
 
-    
+
     let checkSunglasses = checkAvailability('sunglasses', 'Favorite Supply Co.');
     let checkPants = checkAvailability('pants', 'Favorite Supply Co.');
     let checkBags = checkAvailability('bags', 'Favorite Supply Co.');
@@ -1790,9 +2056,32 @@
         .then(onFulfill)
         .catch(onReject);
 
+//#endregion
+
+        
+//#endregion
+
+//#region Async Await 
+
+// Often in web development, we need to handle asynchronous actions— actions we can wait on while moving on to other tasks. 
+// We make requests to networks, databases, or any number of similar operations. 
+// JavaScript is non-blocking: instead of stopping the execution of code while it waits, 
+// JavaScript uses an event-loop which allows it to efficiently execute other tasks while it awaits the completion of these asynchronous actions.
+
+// Originally, JavaScript used callback functions to handle asynchronous actions. 
+// The problem with callbacks is that they encourage complexly nested code which quickly becomes difficult to read, debug, and scale. 
+// With ES6, JavaScript integrated native promises which allow us to write significantly more readable code. 
+// JavaScript is continually improving, and ES8 provides a new syntax for handling our asynchronous action, async...await. 
+// The async...await syntax allows us to write asynchronous code that reads similarly to traditional synchronous, imperative programs.
+
+// The async...await syntax is syntactic sugar— it doesn’t introduce new functionality into the language, 
+// but rather introduces a new syntax for using promises and generators. 
+// Both of these were already built in to the language. 
+// Despite this, async...await powerfully improves the readability and scalability of our code. Let’s learn how to use it!
 
 
-// The async Keyword
+//#region The async Keyword 
+
 // The async keyword is used to write functions that handle asynchronous actions. 
 // We wrap our asynchronous logic inside a function prepended with the async keyword. 
 // Then, we invoke that function.
@@ -1802,13 +2091,13 @@
     };
 
     myFunc();
-    
+
 // we can also create async function expressions:
 
     const myFunc = async () => {
-      // Function body here
+    // Function body here
     };
-     
+    
     myFunc();
 
 // async functions always return a promise. 
@@ -1833,7 +2122,9 @@
 // what’s actually returned when we invoke fivePromise() is a promise with a resolved value of 5.
 
 
-// The await Operator
+//#endregion
+
+//#region The await Operator 
 
 // By itself, async keyword doesn’t do much; async functions are almost always used with the additional keyword await inside the function body.
 
@@ -1859,7 +2150,10 @@
 // We’re able to handle the logic for a promise in a way that reads like synchronous code.
 
 
-// Writing async Functions
+//#endregion
+
+//#region Writing async Functions 
+
 // We’ve seen that the await keyword halts the execution of an async function until a promise is no longer pending. 
 // Don’t forget the await keyword! It may seem obvious, but this can be a tricky mistake to catch because our function 
 // will still run— it just won’t have the desired results
@@ -1897,7 +2191,11 @@
 // whereas in noAwait(), value was assigned the promise object itself.
 
 
-// Handling Dependent Promises
+//#endregion
+
+//#region Handling Dependent Promises 
+
+
 // The true beauty of async...await is when we have a series of asynchronous actions which depend on one another. 
 // For example, we may make a network request based on a query to a database. I
 // n that case, we would need to wait to make the network request until we had the results from the database. 
@@ -1946,8 +2244,10 @@
 // back in our chain which is a much more difficult task with native promise syntax. 
 // Let’s create some async functions with multiple await statements!
 
+//#endregion
 
-// Handling Errors
+//#region Handling Errors 
+
 // When .catch() is used with a long promise chain, there is no indication of where in the chain the error was thrown. 
 // This can make debugging challenging.
 
@@ -1982,7 +2282,7 @@
 
 // This is sometimes used in the global scope to catch final errors in complex code.
 
-const cookBeanSouffle = require('./library.js');
+    const cookBeanSouffle = require('./library.js');
 
 // Example:
     async function hostDinnerParty() {
@@ -1998,8 +2298,11 @@ const cookBeanSouffle = require('./library.js');
 
     hostDinnerParty();
 
+//#endregion
 
-// Handling Independent Promises
+//#region Handling Independent Promises 
+
+
 // Remember that await halts the execution of our async function. 
 // This allows us to conveniently write synchronous-style code to handle dependent promises. 
 // But what if our async function contains multiple promises which are not dependent on the results of one another to execute?
@@ -2029,10 +2332,8 @@ const cookBeanSouffle = require('./library.js');
 // Note: if we have multiple truly independent promises that we would like to execute fully in parallel, 
 // we must use individual .then() functions and avoid halting our execution with await.
 
-
+// Ex:
     let { cookBeans, steamBroccoli, cookRice, bakeChicken } = require('./library.js')
-
-    // Write your code below:
 
     async function serveDinner() {
         const vegetablePromise = steamBroccoli();
@@ -2045,7 +2346,11 @@ const cookBeanSouffle = require('./library.js');
     serveDinner();
 
 
-// Await Promise.all()
+//#endregion
+
+//#region Await Promise.all() 
+
+
 // Another way to take advantage of concurrency when we have multiple promises which can be executed simultaneously is to await a Promise.all().
 
 // We can pass an array of promises as the argument to Promise.all(), and it will return a single promise. 
@@ -2059,7 +2364,6 @@ const cookBeanSouffle = require('./library.js');
         }
     }
 
-
 // In our above example, we await the resolution of a Promise.all(). 
 // This Promise.all() was invoked with an argument array containing four promises (returned from required-in functions). 
 // Next, we loop through our resultArray, and log each item to the console. 
@@ -2072,6 +2376,8 @@ const cookBeanSouffle = require('./library.js');
 // As it was when working with native promises, Promise.all() is a good choice if multiple asynchronous tasks are all required, 
 // but none must wait for any other before executing.
 
+// Ex:
+    let { cookBeans, steamBroccoli, cookRice, bakeChicken } = require('./library.js')
 
     async function serveDinnerAgain() {
         const foodArray = await Promise.all([steamBroccoli(), cookRice(), bakeChicken(), cookBeans()]);
@@ -2081,6 +2387,26 @@ const cookBeanSouffle = require('./library.js');
     }
 
     serveDinnerAgain();
+
+
+//#endregion
+
+
+//#endregion
+    
+
+//#endregion
+
+
+
+
+
+
+
+
+
+
+
 
 
 

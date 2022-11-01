@@ -2790,6 +2790,106 @@
 //#region Requests with Fetch API 
 
 
+//#region Intro to GET Requests using Fetch 
+
+// The first type of requests we’re going to tackle is GET requests using fetch().
+
+// The fetch() function:
+    // Creates a request object that contains relevant information that an API needs.
+    // Sends that request object to the API endpoint provided.
+    // Returns a promise that ultimately resolves to a response object, which contains the status of the promise with information the API sent back.
+
+// Let’s walk through the boilerplate code to the right for using fetch() to create a GET request step by step.
+// First, call the fetch() function and pass it a URL as a string for the first argument, determining the endpoint of the request.
+
+    fetch('https://api-to-call.com/endpoint');
+
+// The .then() method is chained at the end of the fetch() function and in its first argument, the response of the GET request is passed to the callback arrow function. 
+// The .then() method will fire only after the promise status of fetch() has been resolved.
+
+// Inside the callback function, the ok property of the response object returns a Boolean value. 
+// If there are no errors, response.ok will be true and the code will return response.json().
+
+// If response.ok is a falsy value, our code will throw an error.
+    throw new Error('Request failed!');
+
+// A second argument passed to .then() will be another arrow function that will be triggered when the promise is rejected. 
+// It takes a single parameter, networkError. 
+// This object logs the networkError if we could not reach the endpoint at all (e.g., the server is down).
+
+// A second .then() method will run after the previous .then() method has finished running without error. 
+// It takes jsonResponse, which contains the returned response.json() object from the previous .then() method, as its parameter and can now be handled, however we may choose.
+
+
+
+//#endregion
+
+//#region Making a GET Request 
+
+// In the previous exercise, we went over the boilerplate code for a GET request using fetch() and .then(). 
+// In this exercise, we’re going to apply that code to access the Datamuse API and render the fetched information in the browser.
+
+// The Datamuse API is a word-finding query engine for developers.
+// It can be used in apps to find words that match a given set of constraints that are likely in a given context.
+
+// If the request is successful, we’ll get back an array of words that sound like the word we typed into the input field.
+
+// We may get some errors as we complete each step. 
+// This is because sometimes we’ve split a single step into one or more steps to make it easier to follow. 
+// By the end, we should be getting no errors.
+
+// Information to reach API
+    const url = "https://api.datamuse.com/words?sl=";
+
+// Selects page elements
+    const inputField = document.querySelector("#input");
+    const submit = document.querySelector("#submit");
+    const responseField = document.querySelector("#responseField");
+
+// AJAX function
+    const getSuggestions = () => {
+        const wordQuery = inputField.value;
+        const endpoint = url + wordQuery;
+        fetch(endpoint, { cache: "no-cache" }).then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error("Request failed!");
+            },
+            (networkError) => {
+                console.log(networkError.message);
+            }
+        );
+    };
+
+// Clears previous results and display results to webpage
+    const displaySuggestions = (event) => {
+        event.preventDefault();
+        while (responseField.firstChild) {
+            responseField.removeChild(responseField.firstChild);
+        }
+        getSuggestions();
+    };
+
+    submit.addEventListener("click", displaySuggestions);
+
+
+//#region Handling a GET Request 
+
+
+
+//#endregion
+
+
+//#endregion
+
+// In the previous exercise, we called the fetch() function to make a GET request to the Datamuse API endpoint. 
+// Then, you chained a .then() method and passed two callback functions as arguments — one to handle the promise if it resolves, and one to handle network errors if the promise is rejected.
+
+// In this exercise, we will chain another .then() method, which will allow us to take the information that was returned with the promise and manipulate the webpage! 
+// Note that if there is an error returned in the first .then() method, the second .then() method will not execute.
+
+
 
 //#endregion
 

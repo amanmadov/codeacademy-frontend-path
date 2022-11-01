@@ -2662,14 +2662,137 @@
     // Every name-value pair is separated from another pair by a comma, ,. Similarly, every item in an array is delimited by a comma as well. Trailing commas are forbidden.
     // JSON property names must be in double-quoted (" ") text even though JavaScript names do not hold by this stringency.
 
+// JSON Data Types
+// A JSON data type must be one of the following:
+    // string (double-quoted)
+    // number (integer or floating point)
+    // object (name-value pair)
+    // array (comma-delimited)
+    // boolean (true or false)
+    // null
 
+// Try to find all the data types in this JSON example:
+    {
+        "student": {
+            "name": "Rumaisa Mahoney",
+            "age": 30,
+            "fullTime": true,
+            "languages": [ "JavaScript", "HTML", "CSS" ],
+            "GPA": 3.9,
+            "favoriteSubject": null
+        }
+    }
 
+// Notably, JSON doesn’t cover every data type. 
+// Types that are not represented in JSON such as dates can be stored as a string and converted to a language-specific data structure. 
+// Here’s an acceptable internationally-recognized date format in ISO 8601:
+    "2014-01-01T23:28:56.782Z"
+
+// This above format contains parts which resemble a date and time. 
+// However, as a string, it is hard for a programming language to use as is. 
+// Conveniently, every programming language has built-in JSON facilities to convert this string into a more readable and usable format, such as:
+    // Wed Jan 01 2014 13:28:56 GMT-1000 (Hawaiian Standard Time)
+
+// This pretty much covers the basic description of JSON, its popularity, and its syntax. Congratulations on reaching this milestone!
+
+//#endregion
+
+//#region Working with JSON in JavaScript 
+
+// Introduction
+// JSON, short for JavaScript Object Notation, is a language-independent data format that has been accepted as an industry standard. 
+// Because it is based on the JavaScript programming language, JSON’s syntax looks similar to a JavaScript object with minor differences. 
+// We’ll take a look at the subtle difference between them. Later on, we’ll learn how to parse JSON and extract its content as JavaScript. 
+// Lastly, we’ll learn how to write a JSON object with JavaScript. So, let’s begin.
+
+// JSON Object vs. JavaScript Object
+// Here is an example JSON object of a person named Kate, who is 30 years old, and whose hobbies include reading, writing, cooking, and playing tennis:
+    {
+        "person": {  
+            "name": "Kate",  
+            "age": 30,  
+            "hobbies": [ "reading", "writing", "cooking", "tennis" ] 
+        }
+    }
+
+// Represented as a JavaScript object literal, the same information would appear as:
+    {
+        person: {
+            name: 'Kate',
+            age: 30,
+            hobbies: ['reading', 'writing', 'cooking', 'tennis']
+        }
+    }
+
+// Notice a slight difference between the two formats.
+    // The name portion in each JSON name-value pair and all string values must be enclosed in double-quotes while this is optional in JavaScript.
+    // JavaScript accepts string values that are single or double-quoted, however, there exists JavaScript coding guidelines that prefer one style over another.
+
+// Reading a JSON String
+// In a typical web application, the JSON data that we receive from a web request comes in the form of a string. 
+// At other times, JSON data is stored in a file that is used for authentication, configuration, or database storage. 
+// These files typically have a .json extension, and they have to be opened in order to retrieve the JSON string in it. 
+// In either case, we will need to convert the string to a format that we can use in order to access its parts. 
+// Each programming language has its own mechanism to handle this conversion. 
+// In JavaScript, for example, we have a built-in JSON class with a method called .parse() that takes a JSON string as a parameter and returns a JavaScript object.
+
+// The following code converts a JSON string object, jsonData, into a JavaScript object, jsObject, and logs jsObject on the console.
+
+    const jsonData = '{ "book": { "name": "JSON Primer", "price": 29.99, "inStock": true, "rating": null } }';
+    const jsObject = JSON.parse(jsonData);
+    console.log(jsObject);
+
+// This will print out jsObject as follows:
+    // {
+    //     book: { name: 'JSON Primer', price: 29.99, inStock: true, rating: null }
+    // }
+
+// Once we have converted a JSON object to a JavaScript object, we can access the individual properties inside the JavaScript object. 
+// To access a value inside a JavaScript object based on its property name, we can either use dot notation, (.propertyName), or bracket notation, (['propertyName']).
+
+// For instance, to retrieve the book property of jsObject we could do the following:
+// Using the dot notation
+    const book = jsObject.book;    
+    console.log(book);
+    console.log(book.name, book.price, book.inStock);
+    
+// Using the bracket notation
+    const book2 = jsObject['book'];
+    console.log(book2);
+    console.log(book2["name"], book2["price"], book2["inStock"]);
+
+// Both ways of accessing the book property return the same output:
+// { name: 'JSON Primer', price: 29.99, inStock: true, rating: null }
+// JSON Primer 29.99 true
+
+// As you can see, after parsing jsonData into a JavaScript object that’s stored in the variable, book, you can treat book like any other object! 
+// That means you can access property values, as shown above, edit existing values, iterate over the keys and values, etc…
+
+// Writing a JSON String
+// Before we can send off our data across the web, we need to convert them to a JSON string. 
+// In JavaScript, we would use the built-in JSON class method, .stringify() to transform our JavaScript object to a JSON string.
+
+// The following code converts a JavaScript object, jsObject, into a JSON string, jsonData.
+
+    const jsObject = { book: 'JSON Primer', price: 29.99, inStock: true, rating: null };
+    const jsonData = JSON.stringify(jsObject);
+    console.log(jsonData);
+
+// This will display the following output:
+// { "book": "JSON Primer", "price": 29.99, "inStock": true, "rating": null }
+
+//#endregion
 
 
 
 //#endregion
 
+//#region Requests with Fetch API 
+
+
+
 //#endregion
+
 
 //#endregion
 

@@ -7,6 +7,9 @@
 //#region Vanilla Javascript 
 
 
+//#region Javascript Basics 
+
+
 //#region Scope Pollution 
 
 // It may seem like a great idea to always make your variables accessible, 
@@ -24,12 +27,12 @@
 // Let’s look at an example of scope pollution in practice so we know how to avoid it:
 
     let num = 50;
-    
+
     const logNum = () => {
         num = 100; // Take note of this line of code
         console.log(num);
     };
-    
+
     logNum(); // Prints 100
     console.log(num); // Prints 100
 
@@ -65,7 +68,7 @@
         }
         console.log(color); // blue 
     };
-    
+
     console.log(color); // ReferenceError
 
 // Block scope is a powerful tool in JavaScript, since it allows us to define variables with precision, and not pollute the global namespace. 
@@ -182,6 +185,9 @@
     //     homePlanet: 'Earth',
     //     disabled: true
     // }
+
+//#endregion
+
 
 //#endregion
 

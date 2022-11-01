@@ -5,7 +5,9 @@
 
 //#region Vanilla Javascript 
 
-// Scope Pollution
+
+//#region Scope Pollution 
+
 // It may seem like a great idea to always make your variables accessible, 
 // but having too many global variables can cause problems in a program.
 
@@ -23,8 +25,8 @@
     let num = 50;
     
     const logNum = () => {
-    num = 100; // Take note of this line of code
-    console.log(num);
+        num = 100; // Take note of this line of code
+        console.log(num);
     };
     
     logNum(); // Prints 100
@@ -45,20 +47,20 @@
 // we should follow best practices for scoping our variables as tightly as possible using block scope.
 
 // Tightly scoping your variables will greatly improve your code in several ways:
+    // It will make your code more legible since the blocks will organize your code into discrete sections.
+    // It makes your code more understandable since it clarifies which variables are associated with 
+    // different parts of the program rather than having to keep track of them line after line!
+    // It’s easier to maintain your code, since your code will be modular.
+    // It will save memory in your code because it will cease to exist after the block finishes running.
 
-// It will make your code more legible since the blocks will organize your code into discrete sections.
-// It makes your code more understandable since it clarifies which variables are associated with 
-// different parts of the program rather than having to keep track of them line after line!
-// It’s easier to maintain your code, since your code will be modular.
-// It will save memory in your code because it will cease to exist after the block finishes running.
 // Here’s another example of how to use block scope, as defined within an if block:
 
     const logSkyColor = () => {
         const dusk = true;
         let color = 'blue'; 
         if (dusk) {
-        let color = 'pink';
-        console.log(color); // pink
+            let color = 'pink';
+            console.log(color); // pink
         }
         console.log(color); // blue 
     };
@@ -66,7 +68,7 @@
     console.log(color); // ReferenceError
 
 // Block scope is a powerful tool in JavaScript, since it allows us to define variables with precision, and not pollute the global namespace. 
-// If a variable does not need to exist outside a block— it shouldn’t!
+// If a variable does not need to exist outside a block — it shouldn’t!
 
 // Scope refers to where variables can be accessed throughout the program, and is determined by where and how they are declared.
 // Blocks are statements that exist within curly braces {}.
@@ -79,9 +81,10 @@
 
 
 // A runtime environment is where your program will be executed. JavaScript code may be executed in one of two runtime environments:
+    // 1) a browser’s runtime environment
+    // 2) the Node runtime environment
 
-// a browser’s runtime environment
-// the Node runtime environment
+
 // In each of these environments, different data values and functions are available, 
 // and these differences help distinguish front-end applications from back-end applications.
 
@@ -104,8 +107,10 @@
     condiments = ['Mayo']
     console.log(condiments);
 
+//#endregion
 
-// Pass By Reference
+//#region Pass By Reference 
+
 // Objects are passed by reference. 
 // This means when we pass a variable assigned to an object into a function as an argument, 
 // the computer interprets the parameter name as pointing to the space in memory holding that object. 
@@ -142,11 +147,10 @@
             'transport type': 'flying'
         }
         console.log(obj) // Prints {'identified': false, 'transport type': 'flying'}
-
     };
 
     tryReassignment(spaceship) // The attempt at reassignment does not work.
-    spaceship // Still returns {homePlanet : 'Earth', color : 'red'};
+    console.log(spaceship) // Still returns {homePlanet : 'Earth', color : 'red'};
 
     spaceship = {
         identified: false,
@@ -174,12 +178,15 @@
     console.log(spaceship);
     // {
     //     'Fuel Type': 'avocado oil',
-    //         homePlanet: 'Earth',
-    //             disabled: true
+    //     homePlanet: 'Earth',
+    //     disabled: true
     // }
 
+//#endregion
 
-// Advanced Objects Introduction
+//#region ADVANCED OBJECTS 
+
+//#region Advanced Objects Introduction 
 
     const robot = {
         model: 'B-4MI',
@@ -219,10 +226,11 @@
         }
     }
 
+//#endregion
+
+//#region The this Keyword 
 
 
-
-// The this Keyword
     const goat = {
         dietType: 'herbivore',
         makeSound() {
@@ -284,10 +292,10 @@
 // In the code snippet above, the value of this is the global object, or an object that exists in the global scope, 
 // which doesn’t have a dietType property and therefore returns undefined.
 
+//#endregion
 
-// ADVANCED OBJECTS
+//#region Privacy 
 
-// Privacy
 // Accessing and updating properties is fundamental in working with objects. 
 // However, there are cases in which we don’t want other code simply accessing and updating an object’s properties. 
 // When discussing privacy in objects, we define it as the idea that only certain properties should be mutable or able to change in value.
@@ -306,7 +314,11 @@
 
     bankAccount._amount = 1000000;
 
-// Getters
+//#endregion
+
+//#region Getters 
+
+
 // Getters are methods that get and return the internal properties of an object. 
 // But they can do more than just retrieve the value of a property! 
 // Let’s take a look at a getter method:
@@ -360,7 +372,10 @@
     console.log(robot.energyLevel)
 
 
-// Setters
+//#endregion
+
+//#region Setters 
+
 // Along with getter methods, we can also create setter methods which reassign values of existing properties within an object. 
 // Let’s see an example of a setter method:
 
@@ -424,8 +439,10 @@
     robot.numOfSensors = 100
     console.log(robot.numOfSensors)
 
+//#endregion
 
-// Factory Functions
+//#region Factory Functions 
+
 // So far we’ve been creating objects individually, but there are times where we want to create many instances of an object quickly. 
 // Here’s where factory functions come in. A real world factory manufactures multiple copies of an item quickly and on a massive scale. 
 // A factory function is a function that returns an object and can be reused to make multiple object instances. 
@@ -448,8 +465,7 @@
     };
 
 
-// In the monsterFactory function above, 
-// it has four parameters and returns an object that has the properties: name, age, energySource, and scare(). 
+// In the monsterFactory function above,it has four parameters and returns an object that has the properties: name, age, energySource, and scare(). 
 // To make an object that represents a specific monster like a ghost, 
 // we can call monsterFactory with the necessary arguments and assign the return value to a variable:
 
@@ -461,7 +477,11 @@
 // Instead, we can invoke the monsterFactory function with the necessary arguments to make a monster for us!
 
 
-// Property Value Shorthand
+//#endregion
+
+//#region Property Value Shorthand 
+
+
 // ES6 introduced some new shortcuts for assigning properties to variables known as destructuring.
 // In the previous exercise, we created a factory function that helped us create objects. 
 // We had to assign each property a key and value even though the key name was the same as the parameter name we assigned to it. 
@@ -528,11 +548,15 @@
         }
     };
 
-    const { functionality } = robot
-    functionality.beep()
+    const { functionality } = robot;
+    functionality.beep();
 
 
-// Built-in Object Methods
+//#endregion
+
+//#region Built-in Object Methods 
+
+
 // In the previous exercises we’ve been creating instances of objects that have their own methods. 
 // But, we can also take advantage of built-in methods for Objects!
 // For example, we have access to object instance methods like: .hasOwnProperty(), .valueOf(), 
@@ -552,19 +576,33 @@
     const robotKeys = Object.keys(robot);
 
     console.log(robotKeys);
+    // ["model", "mobile", "sentient", "armor", "energyLevel"]
 
     // Declare robotEntries below this line:
     const robotEntries = Object.entries(robot)
 
     console.log(robotEntries);
+    // [["model", "SAL-1000"], ["mobile", true], ["sentient", false], ["armor", "Steel-plated"], ["energyLevel", 75]]
 
     // Declare newRobot below this line:
     const newRobot = Object.assign({ laserBlaster: true, voiceRecognition: true }, robot)
 
     console.log(newRobot);
+    // {
+    //     armor: "Steel-plated",
+    //     energyLevel: 75,
+    //     laserBlaster: true,
+    //     mobile: true,
+    //     model: "SAL-1000",
+    //     sentient: false,
+    //     voiceRecognition: true
+    // }
+
+//#endregion
+
+//#region Exercise Project  
 
 
-// Exercise Project 
     const meals = ['Pizza', 'Lasagna', 'Kebap', 'Chicken Soup', 'Fish', 'Steak']
 
     let menu = {
@@ -602,6 +640,10 @@
     console.log(menu.todaysSpecial)
 
 
+//#endregion
+
+//#region Functions 
+
 // Functions as Data
 // Below, we have an annoyingly long function name that hurts the readability of any code in which it’s used. 
 
@@ -636,8 +678,7 @@
 // returns a function, or both! We call functions that get passed in as parameters callback functions. 
 // Callback functions get invoked during the execution of the higher-order function.
 
-// When we invoke a higher-order function, and pass another function in as an argument, 
-// we don’t invoke the argument function. 
+// When we invoke a higher-order function, and pass another function in as an argument, we don’t invoke the argument function. 
 // Invoking it would evaluate to passing in the return value of that function call. 
 // With callback functions, we pass in the function itself by typing the function name without the parentheses:
 
@@ -766,10 +807,12 @@
     console.log(factorial(5))
     
 
+//#endregion
+
+//#region Classes 
+
 
 // Introduction to Classes
-    
-
 
     let halley = {
         _name: 'Halley',
@@ -790,7 +833,7 @@
 
 // Now, imagine you own a dog daycare and want to create a catalog of all the dogs who belong to the daycare.
 // Instead of using the syntax above for every dog that joins the daycare, we can create a Dog class that serves 
-// as a template for creating new Dog objects.For each new dog, you can provide a value for their name.
+// as a template for creating new Dog objects. For each new dog, you can provide a value for their name.
 // As you can see, classes are a great way to reduce duplicate code and debugging time.
 
     class Dog {
@@ -994,8 +1037,13 @@
     nurseOlynyk.addCertification('Genetics');
     console.log(nurseOlynyk.certifications);
 
+//#endregion
 
-// AUTOMATE AND ORGANIZE TESTS
+//#endregion
+
+//#region AUTOMATE AND ORGANIZE TESTS 
+
+
 // Introduction
 // Testing is an essential part of development. 
 // When used properly, testing can catch and identify issues with your implementation code before you deploy it to users. 
@@ -1087,9 +1135,6 @@
             assert.ok(popped === knightString);
         });
     });
-
-
-
 
 
 
@@ -1380,7 +1425,7 @@
 
 
 
-
+//#endregion
 
 
 
@@ -2261,7 +2306,52 @@ ReactDOM.render(animalFacts, document.getElementById("root"));
 
 //#region Authorization Form 
 
+import React from "react";
+import ReactDOM from "react-dom";
 
+class Contact extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            password: "swordfish",
+            authorized: false,
+        };
+        this.authorize = this.authorize.bind(this);
+    }
+
+    authorize(e) {
+        const password = e.target.querySelector('input[type="password"]').value;
+        const auth = password == this.state.password;
+        this.setState({
+            authorized: auth,
+        });
+    }
+
+    render() {
+        const login = (
+            <form action="#" onSubmit={this.authorize}>
+                <input type="password" placeholder="Password" />
+                <input type="submit" />
+            </form>
+        );
+
+        const contactInfo = (
+            <ul>
+                <li>client@example.com</li>
+                <li>555.555.5555</li>
+            </ul>
+        );
+
+        return (
+            <div id="authorization">
+                <h1>{!this.state.authorized ? "Enter the Password" : "Contact"}</h1>
+                {this.state.authorized ? contactInfo : login}
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<Contact />, document.getElementById("app"));
 
 //#endregion
 

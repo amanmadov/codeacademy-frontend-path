@@ -2873,15 +2873,9 @@
 
     submit.addEventListener("click", displaySuggestions);
 
+//#endregion
 
 //#region Handling a GET Request 
-
-
-
-//#endregion
-
-
-//#endregion
 
 // In the previous exercise, we called the fetch() function to make a GET request to the Datamuse API endpoint. 
 // Then, you chained a .then() method and passed two callback functions as arguments — one to handle the promise if it resolves, and one to handle network errors if the promise is rejected.
@@ -2889,22 +2883,10 @@
 // In this exercise, we will chain another .then() method, which will allow us to take the information that was returned with the promise and manipulate the webpage! 
 // Note that if there is an error returned in the first .then() method, the second .then() method will not execute.
 
+// Information to reach API
+const url = "https://api.datamuse.com/words?sl=";
 
-
-//#endregion
-
-
-//#endregion
-
-
-
-
-
-
-// Fetch API
-    const url = "https://api.datamuse.com/words?sl=";
-
-    // Selects page elements
+// Selects page elements
     const inputField = document.querySelector("#input");
     const submit = document.querySelector("#submit");
     const responseField = document.querySelector("#responseField");
@@ -2932,7 +2914,7 @@
             });
     };
 
-    // Clears previous results and display results to webpage
+// Clears previous results and display results to webpage
     const displaySuggestions = (event) => {
         event.preventDefault();
         while (responseField.firstChild) {
@@ -2942,6 +2924,145 @@
     };
 
     submit.addEventListener("click", displaySuggestions);
+
+//#endregion
+
+//#region Intro to POST Requests using Fetch 
+
+// In the previous exercise, we successfully wrote a GET request using the fetch API and handled Promises to get word suggestions from Datamuse. 
+// Now, we’re going to learn how to use fetch() to construct POST requests!
+// Tthe fetch() call takes two arguments: an endpoint and an object that contains information needed for the POST request.
+
+// The object passed to the fetch() function as its second argument contains two properties: 
+// method, with a value of 'POST', and body, with a value of JSON.stringify({id: '200'});. 
+
+// This second argument determines that this request is a POST request and what information will be sent to the API.
+// A successful POST request will return a response body, which will vary depending on how the API is set up.
+// The rest of the request is identical to the GET request. 
+// A .then() method is chained to the fetch() function to check and return the response as well as throw an exception when a network error is encountered. 
+// A second .then() method is added on so that we can use the response however we may choose.
+
+// In this exercise, we’re going to use that boilerplate code to shorten a URL using the Rebrandly URL Shortener API.
+// We will need a Rebrandly API key. To do this, read through the Rebrandly sign up guide to set up your API.
+// Keep in mind, while it’s ok to use your API key in these exercises, you should not share your key with anyone (not even to ask a question in the forums)! 
+// Also, if you reset the exercise at any point, you will have to paste in your API key again at the top.
+
+// Information to reach API
+    const apiKey = '<Your API Key>';
+    const url = 'https://api.rebrandly.com/v1/links';
+
+// Some page elements
+    const inputField = document.querySelector('#input');
+    const shortenButton = document.querySelector('#shorten');
+    const responseField = document.querySelector('#responseField');
+
+// Asynchronous functions
+    const shortenUrl = () => {
+        const urlToShorten = inputField.value;
+        const data = JSON.stringify({destination: urlToShorten});
+        fetch(url, 
+            {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'apikey': apiKey
+                },
+                body: data
+            })
+    }
+
+// Clear page and call Asynchronous functions
+    const displayShortUrl = (event) => {
+        event.preventDefault();
+        while(responseField.firstChild){
+            responseField.removeChild(responseField.firstChild);
+        }
+        shortenUrl();
+    }
+
+    shortenButton.addEventListener('click', displayShortUrl);
+
+//#endregion
+
+//#region Handling a POST Request 
+
+// The request returns a Promise which will either be resolved or rejected. 
+// If the promise resolves, we can check and return that response. 
+// We will chain another .then() method and handle the returned JSON object and display the information to our webpage.
+
+// Let’s implement this knowledge into our code!
+// Remember that if you reset the exercise at any point, you will have to paste in your API key again at the top!
+
+// Information to reach API
+    const apiKey = '<Your API Key>';
+    const url = 'https://api.rebrandly.com/v1/links';
+
+// Some page elements
+    const inputField = document.querySelector('#input');
+    const shortenButton = document.querySelector('#shorten');
+    const responseField = document.querySelector('#responseField');
+
+// Asynchronous functions
+    const shortenUrl = () => {
+        const urlToShorten = inputField.value;
+        const data = JSON.stringify({destination: urlToShorten});
+        
+        fetch(url,  {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'apikey': apiKey
+                        },
+                        body: data
+                    })
+        .then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            throw new Error('Request failed!');
+        }, networkError => {
+            console.log(networkError.message);
+        })
+        .then(jsonResponse => {
+            renderResponse(jsonResponse);
+        })
+    }
+
+// Clear page and call Asynchronous functions
+    const displayShortUrl = (event) => {
+        event.preventDefault();
+        while(responseField.firstChild){
+            responseField.removeChild(responseField.firstChild);
+        }
+        shortenUrl();
+    }
+
+    shortenButton.addEventListener('click', displayShortUrl);
+
+
+
+
+
+//#endregion
+
+//#region Intro to async GET Requests 
+
+
+
+//#endregion
+
+
+
+
+
+//#endregion
+
+
+//#endregion
+
+
+
+
 
 
 //#endregion

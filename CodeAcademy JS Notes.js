@@ -3624,26 +3624,165 @@ Extra Link: https://reactkungfu.com/2015/10/the-difference-between-virtual-dom-a
 
 //#region Event Listeners in JSX 
 
+    // JSX elements can have event listeners, just like HTML elements can. 
+    // Programming in React means constantly working with event listeners.
+    // You create an event listener by giving a JSX element a special attribute. 
+    
+    // Here’s an example:
+    <img onClick={myFunc} />
+
+    // An event listener attribute’s name should be something like onClick or onMouseOver: 
+    // the word on, plus the type of event that you’re listening for. 
+    // You can see a list of valid event names here.
+
+    // An event listener attribute’s value should be a function. 
+    // The above example would only work if myFunc were a valid function that had been defined elsewhere:
+
+    function myFunc() {
+        alert('Make myFunc the pFunc... omg that was horrible i am so sorry');
+    }
+    
+    <img onClick={myFunc} />
+
+    // Note that in HTML, event listener names are written in all lowercase, such as onclick or onmouseover. 
+    // In JSX, event listener names are written in camelCase, such as onClick or onMouseOver.
 
 //#endregion
 
+//#region JSX Conditionals: If Statements That Don't Work 
 
-//#region newregion 
+    // Here’s a rule that you need to know: you can not inject an if statement into a JSX expression.
+    // This code will break:
 
+    // (
+    //     <h1>
+    //         {
+    //             if (purchase.complete) {
+    //                 'Thank you for placing an order!'
+    //             }
+    //         }
+    //     </h1>
+    // )
 
+    // The reason why has to do with the way that JSX is compiled. 
+    // You don’t need to understand the mechanics of it for now, but if you’re interested then you can learn more in the React documentation.
+
+    // What if you want a JSX expression to render, but only under certain circumstances? 
+    // You can’t inject an if statement. 
+
+    // What can you do?
+    // How can you write a conditional, if you can’t inject an if statement into JSX?
+    // Well, one option is to write an if statement, and not inject it into JSX.
+
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+
+    let message;
+
+    if (user.age >= drinkingAge) {
+        message = (
+            <h1>Hey, check out this alcoholic beverage!</h1>
+        );
+    } else {
+        message = (
+            <h1>Hey, check out these earrings I got at Claire's!</h1>
+        );
+    }
+
+    ReactDOM.render( message, document.getElementById('app'));
 
 //#endregion
 
-//#region newregion 
+//#region JSX Conditionals: The Ternary Operator 
 
+    // There’s a more compact way to write conditionals in JSX: the ternary operator.
+    // The ternary operator works the same way in React as it does in regular JavaScript. 
+    // However, it shows up in React surprisingly often.
 
+    // Recall how it works: you write x ? y : z, where x, y, and z are all JavaScript expressions. 
+    // When your code is executed, x is evaluated as either “truthy” or “falsy.” If x is truthy, then the entire ternary operator returns y. 
+    // If x is falsy, then the entire ternary operator returns z. Here’s a nice explanation if you need a refresher.
+
+    // Here’s how you might use the ternary operator in a JSX expression:
+
+    const headline = (
+        <h1>
+            { age >= drinkingAge ? 'Buy Drink' : 'Do Teen Stuff' }
+        </h1>
+    );
+
+    // In the above example, if age is greater than or equal to drinkingAge, then headline will equal <h1>Buy Drink</h1>. 
+    // Otherwise, headline will equal <h1>Do Teen Stuff</h1>.
+
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+
+    function coinToss () {
+        // Randomly return either 'heads' or 'tails'.
+        return Math.random() < 0.5 ? 'heads' : 'tails';
+    }
+
+    const pics = {
+        kitty: 'https://content.codecademy.com/courses/React/react_photo-kitty.jpg',
+        doggy: 'https://content.codecademy.com/courses/React/react_photo-puppy.jpeg'
+    };
+
+    const img = <img src={pics[coinToss() === 'heads' ? 'kitty' : 'doggy']} />;
+
+    ReactDOM.render(
+        img, 
+        document.getElementById('app')
+    );
 
 //#endregion
 
+//#region JSX Conditionals: && 
 
-//#region newregion 
+    // We’re going to cover one final way of writing conditionals in React: the && operator.
+    // Like the ternary operator, && is not React-specific, but it shows up in React surprisingly often.
+    // In the last two lessons, you wrote statements that would sometimes render a kitty and other times render a doggy. 
+    // && would not have been the best choice for those lessons.
+    // && works best in conditionals that will sometimes do an action, but other times do nothing at all.
+
+    // Here’s an example:
+
+    const tasty = (
+        <ul>
+            <li>Applesauce</li>
+            { !baby && <li>Pizza</li> }
+            { age > 15 && <li>Brussels Sprouts</li> }
+            { age > 20 && <li>Oysters</li> }
+            { age > 25 && <li>Grappa</li> }
+        </ul>
+    );
+
+    // If the expression on the left of the && evaluates as true, then the JSX on the right of the && will be rendered. 
+    // If the first expression is false, however, then the JSX to the right of the && will be ignored and not rendered.
 
 
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+
+    // judgmental will be true half the time.
+    const judgmental = Math.random() < 0.5;
+
+    const favoriteFoods = 
+    (
+        <div>
+            <h1>My Favorite Foods</h1>
+            <ul>
+            <li>Sushi Burrito</li>
+            <li>Rhubarb Pie</li>
+            {!judgmental && <li>Nacho Cheez Straight Out The Jar</li>}
+            <li>Broiled Grapefruit</li>
+            </ul>
+        </div>
+    );
+
+    ReactDOM.render(
+        favoriteFoods, 
+        document.getElementById('app')
+    );
 
 //#endregion
 

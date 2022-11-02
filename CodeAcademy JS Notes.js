@@ -3500,7 +3500,129 @@ Extra Link: https://reactkungfu.com/2015/10/the-difference-between-virtual-dom-a
 //#region Advanced JSX 
 
 
-//#region newregion 
+//#region class vs className 
+
+    // Grammar in JSX is mostly the same as in HTML, but there are subtle differences to watch out for. Probably the most frequent of these involves the word class.
+    // In HTML, it’s common to use class as an attribute name:
+    <h1 class="big">Hey</h1>
+
+    // In JSX, you can’t use the word class! You have to use className instead:
+    <h1 className="big">Hey</h1>
+
+    // This is because JSX gets translated into JavaScript, and class is a reserved word in JavaScript.
+    // When JSX is rendered, JSX className attributes are automatically rendered as class attributes.
+
+//#endregion
+
+//#region Self-Closing Tags 
+
+    // Another JSX ‘gotcha’ involves self-closing tags.
+
+    // What’s a self-closing tag?
+        // Most HTML elements use two tags: an opening tag (<div>), and a closing tag (</div>). 
+        // However, some HTML elements such as <img> and <input> use only one tag. 
+        // The tag that belongs to a single-tag element isn’t an opening tag nor a closing tag; it’s a self-closing tag.
+
+    // When you write a self-closing tag in HTML, it is optional to include a forward-slash immediately before the final angle-bracket:
+
+    // Fine in HTML with a slash:
+    // <br />
+    // Also fine, without the slash:
+    // <br>
+    
+    // But! In JSX, you have to include the slash. 
+    // If you write a self-closing tag in JSX and forget the slash, you will raise an error:
+
+    // Fine in JSX:
+    // <br />
+    // NOT FINE AT ALL in JSX:
+    // <br>
+
+//#endregion
+
+//#region Curly Braces in JSX
+
+    // Any code in between the tags of a JSX element will be read as JSX, not as regular JavaScript! 
+    // JSX doesn’t add numbers - it reads them as text, just like HTML.
+    // You need a way to write code that says, “Even though I am located in between JSX tags, treat me like ordinary JavaScript and not like JSX.”
+    // You can do this by wrapping your code in curly braces.
+
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    
+    // Write code here:
+    ReactDOM.render(
+        <h1>{2 + 3}</h1>, document.getElementById('app')
+    );
+
+//#endregion
+
+//#region Variables in JSX 
+
+    // When you inject JavaScript into JSX, that JavaScript is part of the same environment as the rest of the JavaScript in your file.
+    // That means that you can access variables while inside of a JSX expression, even if those variables were declared on the outside.
+
+    // Declare a variable:
+    const name = 'Gerdo';
+    
+    // Access your variable 
+    // from inside of a JSX expression:
+    const greeting = <p>Hello, {name}!</p>;
+
+//#endregion
+
+//#region Variable Attributes in JSX 
+
+    // When writing JSX, it’s common to use variables to set attributes.
+    // Here’s an example of how that might work:
+
+    // Use a variable to set the `height` and `width` attributes:
+    const sideLength = "200px";
+    
+    const panda = (
+        <img 
+            src="images/panda.jpg" 
+            alt="panda" 
+            height={sideLength} 
+            width={sideLength} 
+        />
+    );
+
+    // Notice how in this example, the <img />‘s attributes each get their own line. 
+    // This can make your code more readable if you have a lot of attributes on one element.
+    // Object properties are also often used to set attributes:
+
+    const pics = {
+        panda: "http://bit.ly/1Tqltv5",
+        owl: "http://bit.ly/1XGtkM3",
+        owlCat: "http://bit.ly/1Upbczi"
+    }; 
+    
+    const panda = (
+        <img 
+            src={pics.panda} 
+            alt="Lazy Panda" 
+        />
+    );
+    
+    const owl = (
+        <img 
+            src={pics.owl} 
+            alt="Unimpressed Owl" 
+        />
+    );
+    
+    const owlCat = (
+        <img 
+            src={pics.owlCat} 
+            alt="Ghastly Abomination"
+        />
+    ); 
+
+
+//#endregion
+
+//#region Event Listeners in JSX 
 
 
 //#endregion
@@ -3509,27 +3631,51 @@ Extra Link: https://reactkungfu.com/2015/10/the-difference-between-virtual-dom-a
 //#region newregion 
 
 
-//#endregion
-
-//#region newregion 
-
 
 //#endregion
 
 //#region newregion 
 
 
+
 //#endregion
+
 
 //#region newregion 
 
 
+
 //#endregion
+
 
 //#region newregion 
 
 
+
 //#endregion
+
+
+//#region newregion 
+
+
+
+//#endregion
+
+
+//#region newregion 
+
+
+
+//#endregion
+
+
+//#region newregion 
+
+
+
+//#endregion
+
+
 
 
 //#endregion

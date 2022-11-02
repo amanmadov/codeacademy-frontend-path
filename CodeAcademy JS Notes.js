@@ -3786,96 +3786,150 @@ Extra Link: https://reactkungfu.com/2015/10/the-difference-between-virtual-dom-a
 
 //#endregion
 
+//#region .map in JSX 
 
-//#region newregion 
+    // The array method .map() comes up often in React. 
+    // It’s good to get in the habit of using it alongside JSX.
 
+    // If you want to create a list of JSX elements, then .map() is often your best bet. 
+    // It can look odd at first:
 
+    const strings = ['Home', 'Shop', 'About Me'];
+    const listItems = strings.map(string => <li>{string}</li>);
+    <ul>{listItems}</ul>
+
+    // In the above example, we start out with an array of strings. 
+    // We call .map() on this array of strings, and the .map() call returns a new array of <li>s.
+
+    // On the last line of the example, note that {listItems} will evaluate to an array, because it’s the returned value of .map()! 
+    // JSX <li>s don’t have to be in an array like this, but they can be.
+    // This is fine in JSX, not in an explicit array:
+    
+    <ul>
+        <li>item 1</li>
+        <li>item 2</li>
+        <li>item 3</li>
+    </ul>
+    
+    // This is also fine!
+    
+    const liArray = [
+        <li>item 1</li>, 
+        <li>item 2</li>, 
+        <li>item 3</li>
+    ];
+    
+    <ul>{liArray}</ul>
 
 //#endregion
 
+//#region Keys 
 
-//#region newregion 
+    // When you make a list in JSX, sometimes your list will need to include something called keys:
 
+    <ul>
+        <li key="li-01">Example1</li>
+        <li key="li-02">Example2</li>
+        <li key="li-03">Example3</li>
+    </ul>
 
+    // A key is a JSX attribute. 
+    // The attribute’s name is key. 
+    // The attribute’s value should be something unique, similar to an id attribute.
+    // Keys don’t do anything that you can see! 
+    // React uses them internally to keep track of lists. 
+    // If you don’t use keys when you’re supposed to, React might accidentally scramble your list-items into the wrong order.
+
+    // Not all lists need to have keys. 
+        // 1. A list needs keys if either of the following are true:
+        //    The list-items have memory from one render to the next. 
+        //    For instance, when a to-do list renders, each item must “remember” whether it was checked off. 
+        //    The items shouldn’t get amnesia when they render.
+
+        // 2. A list’s order might be shuffled. 
+        //    For instance, a list of search results might be shuffled from one render to the next.
+
+    // If neither of these conditions are true, then you don’t have to worry about keys. 
+    // If you aren’t sure then it never hurts to use them!
 
 //#endregion
 
+//#region React.createElement 
 
-//#region newregion 
+    // You can write React code without using JSX at all!
+    // The majority of React programmers do use JSX, and we will use it for the remainder of this tutorial, 
+    // but you should understand that it is possible to write React code without it.
 
+    // The following JSX expression:
 
+    const h1 = <h1>Hello world</h1>;
+
+    // can be rewritten without JSX, like this:
+
+    const h1 = React.createElement(
+        "h1",
+        null,
+        "Hello world"
+    );
+
+    // When a JSX element is compiled, the compiler transforms the JSX element into the method that you see above: React.createElement(). 
+    // Every JSX element is secretly a call to React.createElement().
+    // We won’t go in-depth into how React.createElement() works, but you can start with the documentation if you’d like to learn more!
 
 //#endregion
-
-
-//#region newregion 
-
-
-
-//#endregion
-
-
-
-
-//#endregion
-
-
-
-
-
-
-
-
-
 
 //#region Animal Fun Facts Project JSX
 
+
 //#region app.js 
 
-import { animals } from "./animals";
-import React from "react";
-import ReactDOM from "react-dom";
+    import { animals } from "./animals";
+    import React from "react";
+    import ReactDOM from "react-dom";
 
-const title = "";
-const background = (
-    <img className="background" alt="ocean" src="/images/ocean.jpg" />
-);
+    const title = "";
+    const background = (
+        <img className="background" alt="ocean" src="/images/ocean.jpg" />
+    );
 
 
-const images = [];
-for (const animal in animals) {
-    images.push(<img
-        key={animal}
-        className='animal'
-        alt={animal}
-        src={animals[animal].image}
-        aria-label={animal}
-        role='button'
-        onClick={displayFact}
-    />)
-};
+    const images = [];
+    for (const animal in animals) {
+        images.push(
+            <img
+                key = {animal}
+                className = 'animal'
+                alt = {animal}
+                src = {animals[animal].image}
+                aria-label = {animal}
+                role = 'button'
+                onClick = {displayFact}
+            />
+        )
+    };
 
-function displayFact(e) {
-    const facts = animals[e.target.alt].facts;
-    const randomFactIndex = Math.floor(Math.random() * facts.length)
-    const fact = facts[randomFactIndex];
-    document.getElementById('fact').innerHTML = fact;
-}
+    function displayFact(e) {
+        const facts = animals[e.target.alt].facts;
+        const randomFactIndex = Math.floor(Math.random() * facts.length)
+        const fact = facts[randomFactIndex];
+        document.getElementById('fact').innerHTML = fact;
+    }
 
-const animalFacts = (
-    <div>
-        <h1>{title === '' ? 'Click an animal for a fun fact' : title}</h1>
-        {background}
-        <img
-            className='background'
-            alt='ocean'
-            src='/images/ocean.jpg' />
-        <div className='animals'>{images}</div>
-        <p id='fact'></p>
-    </div>
-);
+    const animalFacts = (
+        <div>
+            <h1>{title === '' ? 'Click an animal for a fun fact' : title}</h1>
+            {background}
+            <img
+                className='background'
+                alt='ocean'
+                src='/images/ocean.jpg' 
+            />
+            <div className='animals'>{images}</div>
+            <p id='fact'></p>
+        </div>
+    );
 
-ReactDOM.render(animalFacts, document.getElementById("root"));
+    ReactDOM.render(animalFacts, document.getElementById("root"));
 
 //#endregion
 
@@ -3915,7 +3969,23 @@ ReactDOM.render(animalFacts, document.getElementById("root"));
 
 //#endregion
 
+
 //#endregion
+
+
+
+
+//#endregion
+
+
+
+
+
+
+
+
+
+
 
 //#region Authorization Form 
 

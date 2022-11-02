@@ -3973,70 +3973,518 @@ Extra Link: https://reactkungfu.com/2015/10/the-difference-between-virtual-dom-a
 //#endregion
 
 
-
-
 //#endregion
 
+//#region React Components 
 
+    //#region Introduction to React Components
 
+        // React applications are made out of components.
+        // What’s a component?
+        // A component is a small, reusable chunk of code that is responsible for one job. 
+        // That job is often to render some HTML.
 
+        // Take a look at the code below. 
+        // This code will create and render a new React component:
 
-
-
-
-
-
-
-//#region Authorization Form 
-
-import React from "react";
-import ReactDOM from "react-dom";
-
-class Contact extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            password: "swordfish",
-            authorized: false,
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+        
+        class MyComponentClass extends React.Component {
+            render() {
+                return <h1>Hello world</h1>;
+            }
         };
-        this.authorize = this.authorize.bind(this);
-    }
-
-    authorize(e) {
-        const password = e.target.querySelector('input[type="password"]').value;
-        const auth = password == this.state.password;
-        this.setState({
-            authorized: auth,
-        });
-    }
-
-    render() {
-        const login = (
-            <form action="#" onSubmit={this.authorize}>
-                <input type="password" placeholder="Password" />
-                <input type="submit" />
-            </form>
+        
+        ReactDOM.render(
+            <MyComponentClass />,
+            document.getElementById('app')
         );
 
-        const contactInfo = (
-            <ul>
-                <li>client@example.com</li>
-                <li>555.555.5555</li>
-            </ul>
-        );
+        // A lot of that code is probably unfamiliar. 
+        // However, you can recognize some JSX in there, as well as ReactDOM.render().
 
-        return (
-            <div id="authorization">
-                <h1>{!this.state.authorized ? "Enter the Password" : "Contact"}</h1>
-                {this.state.authorized ? contactInfo : login}
-            </div>
-        );
-    }
-}
+        // We are going to unpack that code, one small piece at a time. 
+        // By the end of this lesson, you’ll understand how to build a React component!
 
-ReactDOM.render(<Contact />, document.getElementById("app"));
+        // A note from the Curriculum Developers: In this course, we teach both class components and function components. 
+        // We start with class components because they are still widely used in legacy code, 
+        // are common in tutorials/documentation found online, and are required for a few specific use-cases. 
+        // In the module on Hooks, we introduce function components which are the recommended way of creating React components. 
+        // From that point on, we use function components throughout the remainder of our React content.
+
+        // To make a React component, you write a JSX element. 
+        // Instead of naming your JSX element something like h1 or div like you’ve done before, give it the same name as a component class. 
+        // Voilà, there’s your component instance!
+
+        // JSX elements can be either HTML-like, or component instances. 
+        // JSX uses capitalization to distinguish between the two! 
+        // That is the React-specific reason why component class names must begin with capital letters. 
+        // In a JSX element, that capitalized first letter says, “I will be a component instance and not an HTML tag.”
+
+        // ReactDOM.render() will tell <MyComponentClass /> to call its render method.
+        // <MyComponentClass /> will call its render method, which will return the JSX element <h1>Hello world</h1>. 
+        // ReactDOM.render() will then take that resulting JSX element, and add it to the virtual DOM. 
+        // This will make “Hello world” appear on the screen.
+
+
+    //#endregion
+
+    //#region Components and Advanced JSX 
+
+        //#region Put Logic in a Render Function 
+
+            // A render() function must have a return statement. However, that isn’t all that it can have.
+            // A render() function can also be a fine place to put simple calculations that need to happen right before a component renders. 
+            // Here’s an example of some calculations inside of a render function:
+
+                class Random extends React.Component {
+                    render() {
+                        // First, some logic that must happen
+                        // before rendering:
+                        const n = Math.floor(Math.random() * 10 + 1);
+                        // Next, a return statement
+                        // using that logic:
+                        return <h1>The number is {n}!</h1>;
+                    }
+                }
+
+            // Watch out for this common mistake:
+
+                class Random extends React.Component {
+                    // This should be in the render function:
+                    const n = Math.floor(Math.random() * 10 + 1);
+                    
+                    render() {
+                        return <h1>The number is {n}!</h1>;
+                    }
+                };
+            // In the above example, the line with the const n declaration will cause a syntax error, 
+            // as it should not be part of the class declaration itself, but should occur in a method like render().
+
+        //#endregion
+
+        //#region Use a Conditional in a Render Function 
+
+            // How might you use a conditional statement inside of a render() function?
+            // Notice that the if statement is located inside of the render function, but before the return statement. 
+            // This is pretty much the only way that you will ever see an if statement used in a render function.
+
+            import React from 'react';
+            import ReactDOM from 'react-dom';
+
+            class TodaysPlan extends React.Component {
+                render() {
+                    let task;
+                    if (!apocalypse) {
+                        task = 'learn React.js'
+                    } else {
+                        task = 'run around'
+                    }
+
+                    return <h1>Today I am going to {task}!</h1>;
+                }
+            }
+
+            ReactDOM.render(
+                <TodaysPlan />,
+                document.getElementById('app')
+            );
+
+        //#endregion
+
+        //#region Use this in a Component 
+
+            // The word this gets used in React a lot!
+            // You are especially likely to see this inside of the body of a component class declaration. 
+            // Here’s an example:
+
+            class IceCreamGuy extends React.Component {
+                get food() {
+                    return 'ice cream';
+                }
+                
+                render() {
+                    return <h1>I like {this.food}.</h1>;
+                }
+            }
+
+            // In the code, what does this mean?
+            // The simple answer is that this refers to an instance of IceCreamGuy. 
+            // The less simple answer is that this refers to the object on which this‘s enclosing method, in this case .render(), is called. 
+            // It is almost inevitable that this object will be an instance of IceCreamGuy, but technically it could be something else.
+
+            // Let’s assume that this refers to an instance of your component class, as will be the case in all examples in this course. 
+            // IceCreamGuy has two methods: .food and .render(). 
+            // Since this will evaluate to an instance of IceCreamGuy, this.food will evaluate to a call of IceCreamGuy‘s .food method. 
+            // This method will, in turn, evaluate to the string “ice cream.”
+
+            // Why don’t you need parentheses after this.food? Shouldn’t it be this.food()?
+            // You don’t need those parentheses because .food is a getter method. 
+            // You can tell this from the get in the above class declaration body.
+
+            // There’s nothing React-specific about getter methods, nor about this behaving in this way! 
+            // However, in React you will see this used in this way almost constantly.
+
+        //#endregion
+
+        //#region Use an Event Listener in a Component 
+
+            // Render functions often contain event listeners. 
+            // Here’s an example of an event listener in a render function:
+
+            render() {
+                return (
+                    <div onHover={myFunc}></div>
+                );
+            }
+
+            // Recall that an event handler is a function that gets called in response to an event. 
+            // In the above example, the event handler is myFunc().
+
+            // In React, you define event handlers as methods on a component class. 
+            // Like this:
+
+            class MyClass extends React.Component {
+                myFunc() {
+                    alert('Stop it.  Stop hovering.');
+                }
+                
+                render() {
+                    return (
+                        <div onHover={this.myFunc}></div>
+                    );
+                }
+            }
+
+            // Notice that the component class has two methods: .myFunc() and .render(). 
+            // .myFunc() is being used as an event handler. 
+            // .myFunc() will be called any time that a user hovers over the rendered <div></div>.
+
+        //#endregion
+
+    //#endregion
+
+    //#region Authorization Form Project
+
+        import React from "react";
+        import ReactDOM from "react-dom";
+
+        class Contact extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    password: "swordfish",
+                    authorized: false,
+                };
+                this.authorize = this.authorize.bind(this);
+            }
+
+            authorize(e) {
+                const password = e.target.querySelector('input[type="password"]').value;
+                const auth = password == this.state.password;
+                this.setState({
+                    authorized: auth,
+                });
+            }
+
+            render() {
+                const login = (
+                    <form action="#" onSubmit={this.authorize}>
+                        <input type="password" placeholder="Password" />
+                        <input type="submit" />
+                    </form>
+                );
+
+                const contactInfo = (
+                    <ul>
+                        <li>client@example.com</li>
+                        <li>555.555.5555</li>
+                    </ul>
+                );
+
+                return (
+                    <div id="authorization">
+                        <h1>{!this.state.authorized ? "Enter the Password" : "Contact"}</h1>
+                        {this.state.authorized ? contactInfo : login}
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.render(<Contact />, document.getElementById("app"));
+
+    //#endregion
+
+    //#region Creating a React App 
+
+
+    //#region 1. Setting Up the Boilerplate Application 
+
+        // When you install Node, you automatically get npm installed on your computer as well. 
+        // However, npm is a separate project from Node.js, and tends to update more frequently. 
+        // As a result, even if you’ve just installed Node (and therefore npm), it’s a good idea to update your npm. 
+        // Luckily, npm knows how to update itself!
+
+        // To upgrade to the latest version of npm on *nix (OSX, Linux, etc.), you can run this command in your terminal:
+        // sudo npm install -g npm@latest
+
+        // It is possible to manually create a React app, 
+        // but Facebook has created a Node package create-react-app to generate a boilerplate version of a React application.
+        // Besides providing something that works out-of-the-box, 
+        // this has the added benefit of providing a consistent structure for React apps that you will recognize as you move between React projects. 
+        // It also provides an out-of-the-box build script and development server.
+
+        // We will use npx, a package runner tool that comes with npm 5.2+ and higher, to install and run create-react-app. 
+        // This will ensure that the latest version of create-react-app is used.
+        // Open up your terminal.
+        // If you’ve never installed create-react-app before, you can simply run this command:
+        // npx create-react-app myfirstreactapp
+
+    //#endregion
+
+    //#region 2. React App Structure 
+
+        /*
+            myfirstreactapp
+            ├── node_modules
+            ├── public
+            │   ├── favicon.ico
+            │   ├── index.html
+            │   ├── logo192.png
+            │   ├── logo512.png
+            │   ├── manifest.json
+            │   └── robots.txt
+            ├── src
+            │   ├── App.css
+            │   ├── App.js
+            │   ├── App.test.js
+            │   ├── index.css
+            │   ├── index.js
+            │   ├── logo.svg
+            │   ├── serviceWorker.js
+            │   └── setupTests.js
+            ├── .gititgnore
+            ├── package.json
+            ├── package-lock.json
+            └── README.md
+        */
+
+        // create-react-app has taken care of setting up the main structure of the application as well as a couple of developer settings. 
+        // Most of what you see will not be visible to the visitor of your web app. 
+        // React uses a tool called webpack which transforms the directories and files here into static assets. 
+        // Visitors to your site are served those static assets.
+
+        // Don’t worry if you don’t understand too much about webpack for now. 
+        // One of the benefits of using create-react-app to set up our React application is that 
+        // we’re able to bypass any sort of manual configuration for webpack.
+
+        // .gitignore
+        // This is the standard file used by the source control tool git to determine which files and directories to ignore when committing code. 
+        // While this file exists, create-react-app did not create a git repo within this folder. 
+        // If you take a look at the file, it has taken care of ignoring a number of items (even .DS_Store for Mac users):
+
+        // package.json
+        // This file outlines all the settings for the React app.
+        // - name: is the name of your app
+        // - version: is the current version
+        // - "private": true is a failsafe setting to avoid accidentally publishing your app as a public package within the npm ecosystem.
+        // - dependencies: contains all the required Node modules and versions required for the application. 
+        // - scripts: specifies aliases that you can use to access some of the react-scripts commands in a more efficient manner. 
+        
+        // node_modules
+        // This directory contains dependencies and sub-dependencies of packages used by the current React app, 
+        // as specified by package.json. 
+        // If you take a look, you may be surprised by how many there are.
+        // Running ls -1 | wc -l within the node_modules/ directory will yield more than 800 subfolders. 
+        // This folder is automatically added to the .gitignore for good reason! 
+        // Don’t worry, even with all these dependencies, 
+        // the basic app will only be around 50 KB after being minified and compressed for production.
+
+        // package-lock.json
+        // This file contains the exact dependency tree installed in node_modules/. 
+        // This provides a way for teams working on private apps to ensure that they have the same version of dependencies and sub-dependencies. 
+        // It also contains a history of changes to package.json, so you can quickly look back at dependency changes.
+
+        // public
+        // This directory contains assets that will be served directly without additional processing by webpack. 
+        // index.html provides the entry point for the web app. 
+        // You will also see a favicon (header icon) and a manifest.json.
+        // The manifest file configures how your web app will behave if it is added to an Android user’s home screen 
+        // (Android users can “shortcut” web apps and load them directly from the Android UI). 
+        // You can read more about it here.
+
+        // src
+        // This contains the JavaScript that will be processed by webpack and is the heart of the React app. 
+        // Browsing this folder, you see the main App JavaScript component (App.js), 
+        // its associated styles (App.css), and test suite (App.test.js). 
+        // index.js and its styles (index.css) provide an entry into the App and also kick off the registerServiceWorker.js. 
+        // This service worker takes care of caching and updating files for the end-user. 
+        // It allows for offline capability and faster page loads after the initial visit. 
+
+        // As your React app grows, it is common to add a components/ directory to organize components and component-related files 
+        // and a views/ directory to organize React views and view-related files.
+
+    //#endregion
+
+    //#region 3. Starting the React App Development Server 
+
+        // As was stated in the success message when you ran create-react-app, 
+        // you just need to run npm start in your app directory to begin serving the development server. 
+        // It should auto-open a tab in your browser that points to http://localhost:3000/ (if not, manually visit that address). 
+
+        // As stated, any changes to the source code will live-update here. 
+        // Let’s see that in action.
+        // Leave the current terminal tab running (it’s busy serving the React app) and open src/App.js in your favorite text editor.
+        // You’ll see what looks like a mashup of JavaScript and HTML. 
+        // This is JSX, which is how React adds XML syntax to JavaScript. 
+        // It provides an intuitive way to build React components and is compiled to JavaScript at runtime. 
+        // We’ll delve deeper into this in other content, but for now, let’s make a simple edit and see the update in the browser.
+
+    //#endregion
+
+
+    //#endregion
 
 //#endregion
+
+//#region Components Interacting 
+
+
+//#region Components Render Other Components
+
+    // ProfilePage.js
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import { NavBar } from './NavBar';
+
+    class ProfilePage extends React.Component {
+        render() {
+            return (
+                <div>
+                    <NavBar />
+                    <h1>All About Me!</h1>
+                    <p>I like movies and blah blah blah blah blah</p>
+                    <img src="https://content.codecademy.com/courses/React/react_photo-monkeyselfie.jpg" />
+                </div>
+            );
+        }
+    }
+
+    ReactDOM.render(<ProfilePage />, document.getElementById('app'));
+
+    // NavBar.js
+    import React from 'react';
+    export class NavBar extends React.Component {
+        render() {
+            const pages = ['home', 'blog', 'pics', 'bio', 'art', 'shop', 'about', 'contact'];
+            const navLinks = pages.map(page => {
+                return (
+                    <a href={'/' + page}>{page}</a>
+                )
+            });
+            return <nav>{navLinks}</nav>;
+        }
+    }
+
+
+//#endregion
+
+//#region this.Props 
+
+    //#region Access a Component's props 
+
+        // Previously, you learned one way that components can interact: a component can render another component.
+        // In this lesson, you will learn another way that components can interact: a component can pass information to another component.
+        // Information that gets passed from one component to another is known as “props.”
+
+        // Every component has something called props.
+        // A component’s props is an object. It holds information about that component.
+        // To see a component’s props object, you use the expression this.props. 
+        // Here’s an example of this.props being used inside of a render method:
+
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+
+        class PropsDisplayer extends React.Component {
+            render() {
+                const stringProps = JSON.stringify(this.props);
+                return (
+                    <div>
+                        <h1>CHECK OUT MY PROPS OBJECT</h1>
+                        <h2>{stringProps}</h2>
+                    </div>
+                );
+            }
+        }
+
+        // ReactDOM.render goes here:
+        ReactDOM.render(<PropsDisplayer myProp='Hello'/>,document.getElementById('app'))
+
+        // Most of the information in this.props is pretty useless! But some of it is extremely important, as you’ll see.
+
+    //#endregion
+
+    //#region Pass `props` to a Component 
+
+        // You can pass information to a React component.
+        // How? By giving that component an attribute:
+
+        <MyComponent foo="bar" />
+
+        // Let’s say that you want to pass a component the message, "This is some top secret info.". 
+        // Here’s how you could do it:
+
+        <Example message="This is some top secret info." />
+
+        // As you can see, to pass information to a component, you need a name for the information that you want to pass.
+        // In the above example, we used the name message. You can use any name you want.
+        // If you want to pass information that isn’t a string, then wrap that information in curly braces. 
+        // Here’s how you would pass an array:
+
+        <Greeting myInfo={["top", "secret", "lol"]} />
+
+        // In this next example, we pass several pieces of information to <Greeting />. 
+        // The values that aren’t strings are wrapped in curly braces:
+        
+        <Greeting name="Frarthur" town="Flundon" age={2} haunted={false} />
+
+    //#endregion
+
+    //#region Render a Component's props 
+
+        // You just passed information to a component’s props object!
+        // You will often want a component to display the information that you pass.
+        // Here’s how to make a component display passed-in information:
+        //     1 - Find the component class that is going to receive that information.
+        //     2 - Include this.props.name-of-information in that component class’s render method’s return statement.
+
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+
+        class Greeting extends React.Component {
+            render() {
+                return <h1>Hi there, {this.props.firstName}!</h1>;
+            }
+        }
+
+        ReactDOM.render(<Greeting firstName='Allison' />,document.getElementById('app'));
+
+    //#endregion
+
+
+
+
+//#endregion
+
+//#endregion
+
+
+
+
+
+
+
 
 
 

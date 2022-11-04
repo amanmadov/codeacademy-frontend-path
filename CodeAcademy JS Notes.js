@@ -4520,11 +4520,194 @@ Extra Link: https://reactkungfu.com/2015/10/the-difference-between-virtual-dom-a
 
     //#endregion
 
-//#region Put an Event Handler in a Component Class 
+    //#region Put an Event Handler in a Component Class 
+
+        // You can, and often will, pass functions as props. 
+        // It is especially common to pass event handler functions.
+        // In the next lesson, you will pass an event handler function as a prop. 
+        // However, you have to define an event handler before you can pass one anywhere. 
+        // In this lesson, you will define an event handler function.
+        // How do you define an event handler in React?
+        // You define an event handler as a method on the component class, just like the render method.
+
+        import React from 'react';
+        class Example extends React.Component {
+            handleEvent() {
+                alert(`I am an event handler. If you see this message, then I have been called.`);
+            }
+
+            render() {
+                return (
+                    <h1 onClick={this.handleEvent}>
+                        Hello world
+                    </h1>
+                );
+            }
+        }
+
+        // You can pass a method in the exact same way that you pass any other information. 
+        // Behold, the mighty JavaScript.
+
+        // Talker.js
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+        import { Button } from './Button';
+        class Talker extends React.Component {
+            talk() {
+                let speech = '';
+                for (let i = 0; i < 10000; i++) {
+                    speech += 'blah ';
+                }
+                alert(speech);
+            }
+            render() {
+                return <Button talk={this.talk} />;
+            }
+        }
+
+        ReactDOM.render(<Talker />,document.getElementById('app'));
+
+        // Button.js
+        import React from 'react';
+        export class Button extends React.Component {
+            render() {
+                return (
+                    <button>Click me!</button>
+                );
+            }
+        }
+
+    //#endregion
+
+    //#region Receive an Event Handler as a prop
+
+        // Below at Button.js, notice that Button renders a <button></button> element.
+        // If a user clicks on this <button></button> element, 
+        // then you want your passed-in talk function to get called.
+        // That means that you need to attach talk to the <button></button> as an event handler.
+
+        // How do you do that? 
+        // The same way that you attach any event handler to a JSX element: 
+        // you give that JSX element a special attribute. 
+        // The attribute’s name should be something like onClick or onHover. 
+        // The attribute’s value should be the event handler that you want to attach.
+
+            // Button.js
+            import React from 'react';
+            export class Button extends React.Component {
+                render() {
+                    return (
+                        <button onClick={this.props.talk}>
+                            Click me!
+                        </button>
+                    );
+                }
+            }
+
+            // Talker.js
+            import React from 'react';
+            import ReactDOM from 'react-dom';
+            import { Button } from './Button';
+            class Talker extends React.Component {
+                talk() {
+                    let speech = '';
+                    for (let i = 0; i < 10000; i++) {
+                        speech += 'blah ';
+                    }
+                    alert(speech);
+                }
+                render() {
+                    return <Button talk={this.talk} />;
+                }
+            }
+
+            ReactDOM.render(<Talker />,document.getElementById('app'));
+
+    //#endregion
+
+    //#region handleEvent, onEvent, and this.props.onEvent 
+
+        // When you pass an event handler as a prop, as you just did, there are two names that you have to choose.
+        // Both naming choices occur in the parent component class - that is, 
+        // in the component class that defines the event handler and passes it.
+        // The first name that you have to choose is the name of the event handler itself.
+        // Look at Talker.js, lines 6 through 12. This is our event handler. We chose to name it talk.
+        // The second name that you have to choose is the name of the prop that you will use to pass the event handler. 
+        // This is the same thing as your attribute name.
+        // For our prop name, we also chose talk, as shown on line 15:
+
+        return <Button talk={this.talk} />;
+
+        // These two names can be whatever you want. 
+        // However, there is a naming convention that they often follow. 
+        // You don’t have to follow this convention, but you should understand it when you see it.
+
+        // Here’s how the naming convention works: first, think about what type of event you are listening for. 
+        // In our example, the event type was “click.”
+        
+        // If you are listening for a “click” event, then you name your event handler handleClick. 
+        // If you are listening for a “keyPress” event, then you name your event handler handleKeyPress:
+
+        class MyClass extends React.Component {
+            handleHover() {
+                alert('I am an event handler.');
+                alert('I will be called in response to "hover" events.');
+            }
+        }
+
+        // Your prop name should be the word on, plus your event type. 
+        // If you are listening for a “click” event, then you name your prop onClick. 
+        // If you are listening for a “keyPress” event, then you name your prop onKeyPress:
+
+        class MyClass extends React.Component {
+            handleHover() {
+                alert('I am an event handler.');
+                alert('I will listen for a "hover" event.');
+            }
+            render() {
+                return <Child onHover={this.handleHover} />;
+            }
+        }
+
+        // Talker.js
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+        import { Button } from './Button';
+        class Talker extends React.Component {
+            handleClick() {
+                let speech = '';
+                for (let i = 0; i < 10000; i++) {
+                    speech += 'blah ';
+                }
+                alert(speech);
+            }
+            render() {
+                return <Button onClick={this.handleClick} />;
+            }
+        }
+
+        ReactDOM.render(<Talker />,document.getElementById('app'));
+
+        // Button.js
+        import React from 'react';
+        export class Button extends React.Component {
+            render() {
+                return (
+                    <button onClick={this.props.onClick}>
+                        Click me!
+                    </button>
+                );
+            }
+        }
+
+    //#endregion
 
 
 
-//#endregion
+
+
+
+
 
 
 //#endregion

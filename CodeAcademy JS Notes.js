@@ -4520,6 +4520,12 @@ Extra Link: https://reactkungfu.com/2015/10/the-difference-between-virtual-dom-a
 
     //#endregion
 
+//#region Put an Event Handler in a Component Class 
+
+
+
+//#endregion
+
 
 //#endregion
 

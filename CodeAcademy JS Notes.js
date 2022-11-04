@@ -4700,8 +4700,28 @@ Extra Link: https://reactkungfu.com/2015/10/the-difference-between-virtual-dom-a
             }
         }
 
+        // One major source of confusion is the fact that names like onClick have special meaning, 
+        // but only if they’re used on HTML-like elements.
+        // Look at Button.js. 
+        // When you give a <button></button> an attribute named onClick, then the name onClick has special meaning. 
+        // As you’ve learned, this special onClick attribute creates an event listener, 
+        // listening for clicks on the <button></button>
+
+        // Now look at Talker.js. 
+        // Here, when you give <Button /> an attribute named onClick, then the name onClick doesn’t do anything special. 
+        // The name onClick does not create an event listener when used on <Button /> - it’s just an arbitrary attribute name.
+
+        // The reason for this is that <Button /> is not an HTML-like JSX element; it’s a component instance.
+        // Names like onClick only create event listeners if they’re used on HTML-like JSX elements. 
+        // Otherwise, they’re just ordinary prop names.
+
     //#endregion
 
+//#region this.props.children 
+
+
+
+//#endregion
 
 
 
